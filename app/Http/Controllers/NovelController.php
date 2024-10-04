@@ -10,11 +10,34 @@ class NovelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $novels = Novel::paginate(3); //paginate 3 per page
-        return view('novels.index', compact('novels'));
+    public function index(Request $request)
+{
+    $query = Novel::query();
+
+    // Check if there's a search query
+    if ($request->has('search') && $request->input('search') != '') {
+        $searchTerm = $request->input('search');
+        $query->where('title', 'like', "%{$searchTerm}%")
+              ->orWhere('author', 'like', "%{$searchTerm}%");
     }
+
+    // Check if there's a sort query
+    if ($request->has('sort')) {
+        $sortBy = $request->input('sort');
+        $direction = $request->input('direction', 'asc'); // Default to ascending
+        $query->orderBy($sortBy, $direction);
+    } else {
+        // Default sorting
+        $query->orderBy('published_at', 'desc'); // Default sort by latest published
+    }
+
+    // Fetch 3 novels per page
+    $novels = $query->paginate(3);
+
+    return view('novels.index', compact('novels'));
+}
+
+
 
     /**
      * Show the form for creating a new resource.

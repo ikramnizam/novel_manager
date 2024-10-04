@@ -3,15 +3,45 @@
 @section('content')
     <div class="container">
         <h1>Novels</h1>
+
+        <!-- Search Form -->
+        <form action="{{ route('novels.index') }}" method="GET" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search by title or author" value="{{ request('search') }}">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </form>
+
         <a href="{{ route('novels.create') }}" class="btn btn-primary mb-3">Add New Novel</a>
         
         @if ($novels->count())
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Published At</th>
+                        <th>
+                            <a href="{{ route('novels.index', ['search' => request('search'), 'sort' => 'title', 'direction' => request('direction') === 'asc' ? 'desc' : 'asc']) }}" class="text-dark text-decoration-none">
+                                Title
+                                @if (request('sort') === 'title')
+                                    <span>{{ request('direction') === 'asc' ? '↑' : '↓' }}</span>
+                                @endif
+                            </a>
+                        </th>
+                        <th>
+                            <a href="{{ route('novels.index', ['search' => request('search'), 'sort' => 'author', 'direction' => request('direction') === 'asc' ? 'desc' : 'asc']) }}" class="text-dark text-decoration-none">
+                                Author
+                                @if (request('sort') === 'author')
+                                    <span>{{ request('direction') === 'asc' ? '↑' : '↓' }}</span>
+                                @endif
+                            </a>
+                        </th>
+                        <th>
+                            <a href="{{ route('novels.index', ['search' => request('search'), 'sort' => 'published_at', 'direction' => request('direction') === 'asc' ? 'desc' : 'asc']) }}" class="text-dark text-decoration-none">
+                                Published At
+                                @if (request('sort') === 'published_at')
+                                    <span>{{ request('direction') === 'asc' ? '↑' : '↓' }}</span>
+                                @endif
+                            </a>
+                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -34,8 +64,9 @@
                     @endforeach
                 </tbody>
             </table>
-             <!-- Pagination Links -->
-             <div class="d-flex justify-content-center">
+
+            <!-- Pagination Links -->
+            <div class="d-flex justify-content-center">
                 {{ $novels->links() }}
             </div>
         @else
