@@ -11,31 +11,31 @@ class NovelController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    $query = Novel::query();
+    {
+        $query = Novel::query();
 
-    // Check if there's a search query
-    if ($request->has('search') && $request->input('search') != '') {
-        $searchTerm = $request->input('search');
-        $query->where('title', 'like', "%{$searchTerm}%")
-              ->orWhere('author', 'like', "%{$searchTerm}%");
+        // Cek kalau ada search query
+        if ($request->has('search') && $request->input('search') != '') {
+            $searchTerm = $request->input('search');
+            $query->where('title', 'like', "%{$searchTerm}%")
+                ->orWhere('author', 'like', "%{$searchTerm}%");
+        }
+
+        // Check if there's a sort query
+        if ($request->has('sort')) {
+            $sortBy = $request->input('sort');
+            $direction = $request->input('direction', 'asc'); // Default to ascending
+            $query->orderBy($sortBy, $direction);
+        } else {
+            // Default sorting
+            $query->orderBy('published_at', 'desc'); // Default sort by latest published
+        }
+
+        // pagination 3 novel per page
+        $novels = $query->paginate(3);
+
+        return view('novels.index', compact('novels'));
     }
-
-    // Check if there's a sort query
-    if ($request->has('sort')) {
-        $sortBy = $request->input('sort');
-        $direction = $request->input('direction', 'asc'); // Default to ascending
-        $query->orderBy($sortBy, $direction);
-    } else {
-        // Default sorting
-        $query->orderBy('published_at', 'desc'); // Default sort by latest published
-    }
-
-    // Fetch 3 novels per page
-    $novels = $query->paginate(3);
-
-    return view('novels.index', compact('novels'));
-}
 
 
 

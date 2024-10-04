@@ -10,17 +10,17 @@
                 <input type="text" name="title" class="form-control" value="{{ old('title') }}" required> 
             </div>
 
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <label for="author">Author</label>
                 <input type="text" name="author" class="form-control" value="{{ old('author') }}" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <label for="synopsis">Synopsis</label>
                 <textarea name="synopsis" class="form-control" required>{{ old('synopsis') }}</textarea>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <label for="published_at">Published At</label>
                 <input type="date" name="published_at" class="form-control" value="{{ old('published_at') }}" required>
             </div>
