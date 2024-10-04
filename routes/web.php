@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NovelController;
+
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('novels.index'); // Redirect to the novels index route
 });
 
 Route::resource('novels', NovelController::class);
