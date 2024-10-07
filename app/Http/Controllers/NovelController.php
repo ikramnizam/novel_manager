@@ -66,6 +66,7 @@ class NovelController extends Controller
      */
     public function show(Novel $novel)
     {
+        // dd($novel);
         return view('novels.show', compact('novel'));
     }
 
@@ -89,7 +90,7 @@ class NovelController extends Controller
         ]);
 
         $novel->update($request->all());
-        return redirect()->route('novels.index');
+        return redirect()->route('novels.index')->with('success', 'Novel updated successfully!');
     }
 
     /**

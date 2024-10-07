@@ -1,4 +1,4 @@
-1. Clone the repository (https://gitlab.com/ikram9883740/novel_manager.git)
+1. Clone the repository 
 2. configure database in .env , for example:
         DB_CONNECTION=mysql
         DB_HOST=127.0.0.1
@@ -10,3 +10,8 @@
 4. php artisan migrate
 5. php artisan serve
 6. php artisan test
+
+
+ assumptions or decisions made during development.
+
+ 1.
